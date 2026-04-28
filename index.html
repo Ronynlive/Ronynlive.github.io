@@ -14,9 +14,13 @@
   <meta property="og:description" content="Linux Engineer | UKB Bonn | AIX · LVM · IBM Storage Protect · Köln/Bonn">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_DE">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://ronynlive.github.io/og-banner.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Jan Sander — Linux Engineer">
-  <meta name="twitter:description" content="Linux Engineer | UKB Bonn | AIX · LVM · IBM Storage Protect · Köln/Bonn">
+  <meta name="twitter:description" content="Linux Engineer | AIX · LVM · IBM Storage Protect · Köln/Bonn">
+  <meta name="twitter:image" content="https://ronynlive.github.io/og-banner.png">
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
@@ -562,6 +566,10 @@
   <a href="#certs" onclick="toggleMenu()"><span class="de-text">Zertifikate</span><span class="en-text">Certs</span></a>
   <a href="#contact" onclick="toggleMenu()"><span class="de-text">Kontakt</span><span class="en-text">Contact</span></a>
   <a href="https://github.com/Ronynlive" target="_blank" rel="noopener">GitHub</a>
+  <div class="lang-toggle" style="width:fit-content;margin-top:.5rem">
+    <button class="lang-btn" id="mob-btn-de" onclick="setLang('de')">DE</button>
+    <button class="lang-btn" id="mob-btn-en" onclick="setLang('en')">EN</button>
+  </div>
 </div>
 
 <div class="page-content">
@@ -1613,6 +1621,10 @@ function setLang(lang) {
   document.documentElement.lang = lang;
   document.getElementById('btn-de').classList.toggle('active', lang === 'de');
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  const mobDe = document.getElementById('mob-btn-de');
+  const mobEn = document.getElementById('mob-btn-en');
+  if (mobDe) mobDe.classList.toggle('active', lang === 'de');
+  if (mobEn) mobEn.classList.toggle('active', lang === 'en');
   // Make sure any reveal elements that are now visible get their class
   document.querySelectorAll('.reveal:not(.visible)').forEach(function (el) {
     const r = el.getBoundingClientRect();
