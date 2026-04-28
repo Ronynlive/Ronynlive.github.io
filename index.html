@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jan Sander — Linux Engineer</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23070b15'/%3E%3Ctext x='3' y='25' font-family='monospace' font-size='21' fill='%2300ff88' font-weight='bold'%3E$_%3C/text%3E%3C/svg%3E">
+  <!-- SEO & Social -->
+  <meta name="description" content="Jan Sander — Linux Engineer aus Köln/Bonn. Spezialisiert auf Linux, AIX, LVM, IBM Storage Protect. Aktuell beim Universitätsklinikum Bonn.">
+  <meta name="author" content="Jan Sander">
+  <meta property="og:title" content="Jan Sander — Linux Engineer">
+  <meta property="og:description" content="Linux Engineer | UKB Bonn | AIX · LVM · IBM Storage Protect · Köln/Bonn">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jan Sander — Linux Engineer">
+  <meta name="twitter:description" content="Linux Engineer | UKB Bonn | AIX · LVM · IBM Storage Protect · Köln/Bonn">
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --bg:      #070b15;
+      --bg2:     #0b1120;
+      --bg3:     #101828;
+      --green:   #00ff88;
+      --cyan:    #00d4ff;
+      --purple:  #8b5cf6;
+      --text:    #e2e8f0;
+      --muted:   #52687a;
+      --border:  #182338;
+      --mono:    'Courier New', Courier, monospace;
+      --sans:    'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; }
+    ::selection { background: var(--green); color: #000; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 2px; }
+
+    /* Scanlines */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px);
+      pointer-events: none; z-index: 9999;
+    }
+
+    /* Matrix canvas */
+    #matrix-canvas { position: fixed; inset: 0; z-index: 0; opacity: 0.04; pointer-events: none; }
+
+    /* All content above canvas */
+    nav, .page-content, footer { position: relative; z-index: 2; }
+
+    /* ═══════════════════════════ NAV ═══════════════════════════ */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(7,11,21,0.9); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--mono); font-size: 1rem;
+      color: var(--green); text-decoration: none; letter-spacing: .05em;
+    }
+    .nav-logo .d { color: var(--muted); }
+    .nav-logo .blink {
+      display: inline-block; width: 8px; height: 14px;
+      background: var(--green); vertical-align: middle;
+      margin-left: 2px; animation: blink 1s step-end infinite;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: .8rem;
+      font-family: var(--mono); letter-spacing: .06em; transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--green); }
+
+    .nav-right { display: flex; align-items: center; gap: .9rem; }
+
+    .lang-toggle {
+      display: flex; background: var(--bg2);
+      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+    }
+    .lang-btn {
+      padding: .28rem .65rem; cursor: pointer; border: none; background: none;
+      font-family: var(--mono); font-size: .7rem; color: var(--muted);
+      transition: background .2s, color .2s;
+    }
+    .lang-btn.active { background: var(--green); color: #000; font-weight: 700; }
+
+    .nav-cta {
+      padding: .35rem 1rem; border: 1px solid var(--green); border-radius: 4px;
+      color: var(--green); font-family: var(--mono); font-size: .75rem;
+      text-decoration: none; transition: background .2s, box-shadow .2s;
+    }
+    .nav-cta:hover { background: var(--green); color: #000; box-shadow: 0 0 18px rgba(0,255,136,.35); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 22px; height: 2px; background: var(--text); display: block; }
+
+    .mobile-nav {
+      display: none; position: fixed; top: 58px; left: 0; right: 0; z-index: 99;
+      background: rgba(7,11,21,.97); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column; gap: 1rem; padding: 1.5rem 2rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { color: var(--muted); text-decoration: none; font-family: var(--mono); font-size: .9rem; }
+    .mobile-nav a:hover { color: var(--green); }
+
+    @media (max-width: 768px) { .nav-links { display: none; } .hamburger { display: flex; } }
+
+    /* ═══════════════════════════ HERO ═══════════════════════════ */
+    #hero {
+      min-height: 100vh; padding-top: 58px;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+
+    #hero-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+
+    /* Grid overlay */
+    #hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,136,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,.025) 1px, transparent 1px);
+      background-size: 70px 70px; pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 2rem; width: 100%;
+      display: grid; grid-template-columns: 1fr 400px; gap: 3rem;
+      align-items: center; position: relative; z-index: 2;
+    }
+    @media (max-width: 960px) { .hero-inner { grid-template-columns: 1fr; } }
+
+    /* Glitch */
+    .hero-pre {
+      font-family: var(--mono); font-size: .9rem; color: var(--green); margin-bottom: .8rem;
+      opacity: 0; animation: fadeUp .6s .2s forwards;
+    }
+    .hero-pre::before { content: '> '; color: var(--muted); }
+
+    .glitch-wrap { opacity: 0; animation: fadeUp .6s .4s forwards; }
+    .glitch {
+      font-size: clamp(2.8rem, 7.5vw, 6rem); font-weight: 900;
+      line-height: 1; letter-spacing: -.03em; color: var(--text);
+      position: relative; display: inline-block;
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text); position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      font-size: inherit; font-weight: inherit; letter-spacing: inherit;
+    }
+    .glitch::before {
+      color: var(--cyan);
+      animation: glitch-top 9s infinite; clip-path: polygon(0 0,100% 0,100% 38%,0 38%);
+    }
+    .glitch::after {
+      color: var(--green);
+      animation: glitch-bot 9s infinite; clip-path: polygon(0 62%,100% 62%,100% 100%,0 100%);
+    }
+    @keyframes glitch-top {
+      0%,82%,100% { transform: translate(0); opacity: 0; }
+      84%  { transform: translate(-4px, 1px); opacity: 1; }
+      86%  { transform: translate( 4px,-1px); opacity: 1; }
+      88%  { transform: translate(-2px, 2px); opacity: 0; }
+      90%  { transform: translate( 2px,-2px); opacity: 1; }
+      91%  { transform: translate(0); opacity: 0; }
+    }
+    @keyframes glitch-bot {
+      0%,85%,100% { transform: translate(0); opacity: 0; }
+      86%  { transform: translate( 4px, 2px); opacity: 1; }
+      88%  { transform: translate(-4px,-1px); opacity: 1; }
+      90%  { transform: translate( 1px, 1px); opacity: 0; }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2.5vw, 1.7rem); font-weight: 300; color: var(--muted);
+      margin-top: .5rem; opacity: 0; animation: fadeUp .6s .6s forwards;
+    }
+    .hero-subtitle .accent { color: var(--cyan); font-weight: 600; }
+    .hero-subtitle .sep { color: var(--border); margin: 0 .5rem; }
+
+    .hero-motto {
+      font-family: var(--mono); font-size: .85rem; color: var(--green);
+      margin-top: 1.2rem; border-left: 2px solid var(--green); padding-left: .8rem;
+      opacity: 0; animation: fadeUp .6s .7s forwards;
+    }
+
+    .hero-desc {
+      max-width: 500px; color: var(--muted); font-size: .96rem;
+      margin-top: 1.2rem; line-height: 1.9;
+      opacity: 0; animation: fadeUp .6s .8s forwards;
+    }
+
+    .hero-badges {
+      display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1.2rem;
+      opacity: 0; animation: fadeUp .6s .85s forwards;
+    }
+    .hero-badge {
+      font-family: var(--mono); font-size: .68rem;
+      padding: .2rem .6rem;
+      background: rgba(0,255,136,.06); border: 1px solid rgba(0,255,136,.2);
+      border-radius: 3px; color: var(--green);
+    }
+
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;
+      opacity: 0; animation: fadeUp .6s 1s forwards;
+    }
+
+    .btn-primary {
+      padding: .75rem 1.8rem; background: var(--green); color: #000;
+      font-weight: 700; font-family: var(--mono); font-size: .78rem;
+      border: none; border-radius: 4px; cursor: pointer; text-decoration: none;
+      letter-spacing: .06em; transition: transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,255,136,.35); }
+
+    .btn-secondary {
+      padding: .75rem 1.8rem; background: transparent; color: var(--text);
+      font-family: var(--mono); font-size: .78rem; border: 1px solid var(--border);
+      border-radius: 4px; cursor: pointer; text-decoration: none;
+      letter-spacing: .06em; transition: border-color .2s, color .2s;
+    }
+    .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .btn-cv {
+      padding: .75rem 1.4rem; background: transparent; color: var(--purple);
+      font-family: var(--mono); font-size: .78rem;
+      border: 1px solid var(--purple); border-radius: 4px;
+      cursor: pointer; text-decoration: none; letter-spacing: .06em;
+      display: flex; align-items: center; gap: .4rem;
+      transition: background .2s, box-shadow .2s;
+    }
+    .btn-cv:hover { background: rgba(139,92,246,.12); box-shadow: 0 0 22px rgba(139,92,246,.3); }
+
+    /* Hero right */
+    .hero-right { opacity: 0; animation: fadeUp .8s 1.2s forwards; }
+    @media (max-width: 960px) { .hero-right { display: none; } }
+
+    /* Profile ring */
+    .profile-area { display: flex; justify-content: center; margin-bottom: 1.4rem; }
+    .profile-ring {
+      width: 86px; height: 86px; border-radius: 50%;
+      border: 2px solid var(--green);
+      box-shadow: 0 0 28px rgba(0,255,136,.3), inset 0 0 20px rgba(0,255,136,.05);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; background: var(--bg2); position: relative;
+    }
+    .profile-ring::before {
+      content: ''; position: absolute; inset: -7px; border-radius: 50%;
+      border: 1px dashed rgba(0,255,136,.22); animation: spin 22s linear infinite;
+    }
+    .profile-ring::after {
+      content: ''; position: absolute; inset: -14px; border-radius: 50%;
+      border: 1px dashed rgba(0,212,255,.1); animation: spin 35s linear infinite reverse;
+    }
+    .online {
+      position: absolute; bottom: 4px; right: 4px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--green); border: 2px solid var(--bg);
+      box-shadow: 0 0 8px var(--green); animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 6px var(--green); } 50% { box-shadow: 0 0 16px var(--green); } }
+
+    /* Terminal */
+    .terminal {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden; font-family: var(--mono); font-size: .77rem;
+      box-shadow: 0 30px 70px rgba(0,0,0,.6), 0 0 0 1px rgba(0,255,136,.04);
+    }
+    .terminal-bar {
+      background: var(--bg3); padding: .55rem 1rem;
+      display: flex; align-items: center; gap: .4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .tdot { width: 12px; height: 12px; border-radius: 50%; }
+    .tdot.r { background: #ff5f57; } .tdot.y { background: #ffbd2e; } .tdot.g { background: #28c840; }
+    .terminal-title { margin-left: .4rem; color: var(--muted); font-size: .68rem; flex: 1; text-align: center; }
+    .terminal-body { padding: 1rem 1.2rem; line-height: 2; min-height: 190px; }
+    .t-out { color: var(--muted); display: block; }
+    .t-cursor {
+      display: inline-block; width: 7px; height: 13px;
+      background: var(--green); vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    /* ═══════════════════════════ SECTIONS ═══════════════════════════ */
+    .sec { padding: 7rem 2rem; }
+    .sec.dark { background: var(--bg2); }
+    .sec-inner { max-width: 1100px; margin: 0 auto; }
+
+    .sec-label {
+      font-family: var(--mono); font-size: .76rem; color: var(--green);
+      letter-spacing: .16em; text-transform: uppercase; margin-bottom: .5rem;
+    }
+    .sec-title {
+      font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 800;
+      color: var(--text); margin-bottom: .8rem; letter-spacing: -.02em;
+    }
+    .sec-line {
+      width: 58px; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      border-radius: 2px; margin-bottom: 3rem;
+    }
+
+    /* ═══════════════════════════ ABOUT ═══════════════════════════ */
+    .about-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 4rem; align-items: start; }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .about-text p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.9; font-size: .97rem; }
+    .about-text p strong { color: var(--text); }
+
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .stat {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.4rem; text-align: center;
+      transition: border-color .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .stat::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,255,136,.04), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .stat:hover { border-color: var(--green); box-shadow: 0 4px 24px rgba(0,255,136,.1); }
+    .stat:hover::before { opacity: 1; }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--green); font-family: var(--mono); display: block; text-shadow: 0 0 22px rgba(0,255,136,.5); }
+    .stat-lbl { font-size: .74rem; color: var(--muted); margin-top: .25rem; display: block; }
+
+    /* ═══════════════════════════ SKILLS ═══════════════════════════ */
+    .skill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); gap: 1.2rem; margin-bottom: 3rem; }
+
+    .skill-cat {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.5rem; transition: border-color .25s, transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .skill-cat::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      transform: scaleX(0); transform-origin: left; transition: transform .35s;
+    }
+    .skill-cat:hover { border-color: rgba(0,255,136,.35); transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,255,136,.07); }
+    .skill-cat:hover::after { transform: scaleX(1); }
+
+    .cat-title { font-family: var(--mono); font-size: .77rem; color: var(--cyan); margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+    .cat-title::before { content: '//'; color: var(--muted); }
+
+    .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag {
+      padding: .26rem .62rem;
+      background: rgba(0,255,136,.06); border: 1px solid rgba(0,255,136,.17);
+      border-radius: 4px; font-family: var(--mono); font-size: .7rem; color: var(--green);
+      display: flex; align-items: center; gap: .3rem; transition: background .2s;
+    }
+    .tag:hover { background: rgba(0,255,136,.14); }
+    .tag.c { background: rgba(0,212,255,.06); border-color: rgba(0,212,255,.17); color: var(--cyan); }
+    .tag.c:hover { background: rgba(0,212,255,.14); }
+    .tag.p { background: rgba(139,92,246,.08); border-color: rgba(139,92,246,.2); color: #a78bfa; }
+    .tag i { font-size: 1em; }
+
+    .bars { max-width: 600px; }
+    .bar-item { margin-bottom: 1.3rem; }
+    .bar-top { display: flex; justify-content: space-between; margin-bottom: .4rem; }
+    .bar-name { font-size: .875rem; color: var(--text); }
+    .bar-pct { font-family: var(--mono); font-size: .76rem; color: var(--green); }
+    .bar-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .bar-fill {
+      height: 100%; border-radius: 3px; width: 0;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      transition: width 1.4s cubic-bezier(.4,0,.2,1);
+      box-shadow: 0 0 8px rgba(0,255,136,.4);
+    }
+
+    /* ═══════════════════════════ TIMELINE ═══════════════════════════ */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(180deg, var(--green), var(--cyan), transparent);
+    }
+
+    .tl-item { position: relative; margin-bottom: 3rem; padding-left: 1.5rem; }
+    .tl-item::before {
+      content: ''; position: absolute; left: -2.4rem; top: .3rem;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 14px var(--green), 0 0 30px rgba(0,255,136,.25);
+    }
+    .tl-item.edu::before { background: var(--cyan); box-shadow: 0 0 14px var(--cyan), 0 0 30px rgba(0,212,255,.25); }
+
+    .tl-badge {
+      display: inline-block; font-family: var(--mono); font-size: .65rem;
+      padding: .12rem .5rem; border-radius: 3px; margin-bottom: .4rem;
+    }
+    .tl-badge.work { background: rgba(0,255,136,.1); color: var(--green); border: 1px solid rgba(0,255,136,.2); }
+    .tl-badge.edu { background: rgba(0,212,255,.1); color: var(--cyan); border: 1px solid rgba(0,212,255,.2); }
+
+    .tl-date { font-family: var(--mono); font-size: .73rem; color: var(--green); margin-bottom: .3rem; letter-spacing: .04em; }
+    .tl-item.edu .tl-date { color: var(--cyan); }
+    .tl-role { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .tl-company { font-size: .85rem; color: var(--cyan); margin-bottom: .6rem; }
+    .tl-item.edu .tl-company { color: #a78bfa; }
+    .tl-desc { color: var(--muted); font-size: .875rem; line-height: 1.8; }
+    .tl-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .8rem; }
+    .tl-tag { padding: .18rem .5rem; background: var(--bg3); border-radius: 3px; font-family: var(--mono); font-size: .68rem; color: var(--muted); }
+
+    /* ═══════════════════════════ CERTS ═══════════════════════════ */
+    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(275px, 1fr)); gap: 1rem; }
+    .cert-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.4rem; display: flex; gap: 1rem; align-items: flex-start;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+    .cert-card:hover { border-color: rgba(0,255,136,.35); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,255,136,.07); }
+    .cert-card.feat { grid-column: 1 / -1; }
+    .cert-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .cert-name { font-size: .87rem; font-weight: 600; color: var(--text); line-height: 1.4; }
+    .cert-issuer { font-size: .74rem; color: var(--muted); margin-top: .25rem; }
+
+    .cert-mods { margin-top: 1.2rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(215px, 1fr)); gap: 1rem; }
+    .mod-title { font-family: var(--mono); font-size: .67rem; color: var(--cyan); letter-spacing: .06em; margin-bottom: .45rem; padding-bottom: .3rem; border-bottom: 1px solid rgba(0,212,255,.15); }
+    .mod-row { display: flex; justify-content: space-between; gap: .5rem; font-size: .72rem; color: var(--muted); margin-bottom: .25rem; }
+    .mod-score { font-family: var(--mono); font-size: .68rem; color: var(--green); white-space: nowrap; flex-shrink: 0; }
+
+    /* ═══════════════════════════ LANGUAGES ═══════════════════════════ */
+    .lang-row { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+    .lang-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.4rem 2.5rem; text-align: center; min-width: 160px;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .lang-card:hover { border-color: var(--green); box-shadow: 0 0 22px rgba(0,255,136,.1); }
+    .lang-flag { font-size: 2rem; margin-bottom: .5rem; }
+    .lang-name { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .lang-lvl { font-family: var(--mono); font-size: .73rem; color: var(--green); margin-top: .3rem; }
+
+    /* ═══════════════════════════ CONTACT ═══════════════════════════ */
+    .contact-center { text-align: center; }
+    .contact-tagline { color: var(--muted); font-size: .97rem; line-height: 1.9; max-width: 520px; margin: 0 auto 2.5rem; }
+    .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.8rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.8rem; background: var(--bg2);
+      border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text); text-decoration: none; font-family: var(--mono); font-size: .82rem;
+      transition: border-color .2s, color .2s, transform .2s, box-shadow .2s;
+    }
+    .contact-link:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); box-shadow: 0 8px 26px rgba(0,255,136,.1); }
+    .contact-email { font-family: var(--mono); font-size: 1rem; color: var(--green); text-decoration: none; }
+    .contact-email:hover { text-shadow: 0 0 22px rgba(0,255,136,.55); }
+
+    /* ═══════════════════════════ FOOTER ═══════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem;
+      text-align: center; font-family: var(--mono); font-size: .73rem; color: var(--muted);
+    }
+    footer .hi { color: var(--green); }
+
+    /* ═══════════════════════════ ANIMATIONS ═══════════════════════════ */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════ PROJECTS / HOMELAB ═══════════════════════════ */
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 1.2rem; }
+    .proj-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.4rem; transition: border-color .25s, transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .proj-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      transform: scaleX(0); transform-origin: left; transition: transform .35s;
+    }
+    .proj-card:hover { border-color: rgba(0,212,255,.35); transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,212,255,.07); }
+    .proj-card:hover::after { transform: scaleX(1); }
+    .proj-header { display: flex; align-items: center; gap: .8rem; margin-bottom: .8rem; }
+    .proj-icon { font-size: 1.7rem; flex-shrink: 0; }
+    .proj-name { font-weight: 700; color: var(--text); font-size: .95rem; line-height: 1.3; }
+    .proj-status { font-family: var(--mono); font-size: .66rem; color: var(--green); margin-top: .15rem; }
+    .proj-desc { color: var(--muted); font-size: .84rem; line-height: 1.75; margin-bottom: .9rem; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .proj-tag { font-family: var(--mono); font-size: .68rem; padding: .18rem .5rem; background: rgba(0,212,255,.06); border: 1px solid rgba(0,212,255,.15); border-radius: 3px; color: var(--cyan); }
+
+    /* ═══════════════════════════ CONTACT FORM ═══════════════════════════ */
+    .cf { max-width: 580px; margin: 0 auto 2rem; display: flex; flex-direction: column; gap: 1rem; }
+    .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 600px) { .cf-row { grid-template-columns: 1fr; } }
+    .cf-field { display: flex; flex-direction: column; gap: .4rem; }
+    .cf-label { font-family: var(--mono); font-size: .72rem; color: var(--green); letter-spacing: .08em; }
+    .cf-input, .cf-textarea {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 5px;
+      padding: .7rem 1rem; color: var(--text); font-family: var(--mono); font-size: .82rem;
+      transition: border-color .2s, box-shadow .2s; width: 100%;
+    }
+    .cf-input::placeholder, .cf-textarea::placeholder { color: var(--muted); opacity: 1; }
+    .cf-input:focus, .cf-textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,255,136,.1); }
+    .cf-textarea { min-height: 140px; resize: vertical; }
+    .cf-success {
+      display: none; color: var(--green); font-family: var(--mono); font-size: .85rem;
+      padding: 1rem; background: rgba(0,255,136,.06);
+      border: 1px solid rgba(0,255,136,.2); border-radius: 5px; text-align: center;
+    }
+
+    /* ═══════════════════════════ LANG TOGGLE ═══════════════════════════ */
+    [data-lang="de"] .en-text { display: none !important; }
+    [data-lang="en"] .de-text { display: none !important; }
+  </style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    jan<span class="d">@linux</span><span class="d">:~$</span><span class="blink"></span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about"><span class="de-text">über mich</span><span class="en-text">about</span></a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#experience"><span class="de-text">erfahrung</span><span class="en-text">experience</span></a></li>
+    <li><a href="#homelab"><span class="de-text">homelab</span><span class="en-text">homelab</span></a></li>
+    <li><a href="#certs"><span class="de-text">zertifikate</span><span class="en-text">certs</span></a></li>
+    <li><a href="#contact"><span class="de-text">kontakt</span><span class="en-text">contact</span></a></li>
+    <li><a href="https://github.com/Ronynlive" target="_blank" rel="noopener">github</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="#contact" class="nav-cta"><span class="de-text">Kontakt</span><span class="en-text">Contact</span></a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mob-nav">
+  <a href="#about" onclick="toggleMenu()"><span class="de-text">Über mich</span><span class="en-text">About</span></a>
+  <a href="#skills" onclick="toggleMenu()">Skills</a>
+  <a href="#experience" onclick="toggleMenu()"><span class="de-text">Erfahrung</span><span class="en-text">Experience</span></a>
+  <a href="#homelab" onclick="toggleMenu()">Homelab</a>
+  <a href="#certs" onclick="toggleMenu()"><span class="de-text">Zertifikate</span><span class="en-text">Certs</span></a>
+  <a href="#contact" onclick="toggleMenu()"><span class="de-text">Kontakt</span><span class="en-text">Contact</span></a>
+  <a href="https://github.com/Ronynlive" target="_blank" rel="noopener">GitHub</a>
+</div>
+
+<div class="page-content">
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <p class="hero-pre">
+        <span class="de-text">Hallo, ich bin</span>
+        <span class="en-text">Hello, I am</span>
+      </p>
+
+      <div class="glitch-wrap">
+        <h1 class="glitch" data-text="Jan Sander">Jan Sander</h1>
+      </div>
+
+      <p class="hero-subtitle">
+        <span class="accent">Linux Engineer</span>
+        <span class="sep">/</span>
+        <span class="de-text">Köln &amp; Bonn</span>
+        <span class="en-text">Cologne &amp; Bonn, Germany</span>
+      </p>
+
+      <p class="hero-motto">
+        // Automate everything you hate doing twice.
+      </p>
+
+      <p class="hero-desc">
+        <span class="de-text">
+          Linux Engineer mit Erfahrung im Betrieb kritischer IT-Infrastruktur
+          im Gesundheitswesen und der öffentlichen IT. Spezialisiert auf Storage, Netzwerk
+          und Systemautomatisierung.
+        </span>
+        <span class="en-text">
+          Linux Engineer with experience in operating critical IT infrastructure
+          in healthcare and public sector. Specialized in storage management, networking,
+          and system automation.
+        </span>
+      </p>
+
+      <div class="hero-badges">
+        <span class="hero-badge">🏥 UKB Bonn</span>
+        <span class="hero-badge">🪖 BWI GmbH</span>
+        <span class="hero-badge">🐧 Linux &amp; AIX</span>
+        <span class="hero-badge">💾 IBM Storage Protect</span>
+        <span class="hero-badge">📍 Köln / Bonn</span>
+      </div>
+
+      <div class="hero-btns">
+        <a href="#experience" class="btn-primary">
+          <span class="de-text">Erfahrung ansehen</span>
+          <span class="en-text">View Experience</span>
+        </a>
+        <a href="#contact" class="btn-secondary">
+          <span class="de-text">Kontakt aufnehmen</span>
+          <span class="en-text">Get in Touch</span>
+        </a>
+        <a href="CV.pdf" class="btn-cv" title="CV Download (PDF)" download>
+          ↓ CV.pdf
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="profile-area">
+        <div class="profile-ring">
+          🐧
+          <div class="online"></div>
+        </div>
+      </div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="tdot r"></div>
+          <div class="tdot y"></div>
+          <div class="tdot g"></div>
+          <span class="terminal-title">bash — jan@ukb-server:~</span>
+        </div>
+        <div class="terminal-body" id="termBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ ABOUT ═══════════════════════════ -->
+<section class="sec" id="about" style="scroll-margin-top:58px">
+  <div class="sec-inner">
+    <p class="sec-label reveal">
+      <span class="de-text">// 01. über mich</span>
+      <span class="en-text">// 01. about me</span>
+    </p>
+    <h2 class="sec-title reveal">
+      <span class="de-text">Wer steckt dahinter?</span>
+      <span class="en-text">Who's behind this?</span>
+    </h2>
+    <div class="sec-line reveal"></div>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="reveal">
+          <span class="de-text">
+            Ich bin Linux Engineer mit Erfahrung im Betrieb kritischer IT-Infrastruktur —
+            aktuell beim <strong>Universitätsklinikum Bonn</strong>, davor mehrere Jahre
+            bei der <strong>BWI GmbH</strong>, dem IT-Dienstleister der Bundeswehr.
+          </span>
+          <span class="en-text">
+            I'm a Linux Engineer operating critical IT infrastructure — currently at the
+            <strong>University Hospital Bonn (UKB)</strong>, previously at
+            <strong>BWI GmbH</strong>, the Bundeswehr's IT service provider.
+          </span>
+        </p>
+        <p class="reveal">
+          <span class="de-text">
+            Mein technischer Fokus liegt auf <strong>Linux- und AIX-Systemadministration</strong>,
+            Storage-Management mit LVM, Netzwerkkonfiguration sowie der Automatisierung
+            wiederkehrender Aufgaben — weil kein Mensch denselben Befehl zweimal manuell
+            eingeben sollte. Dazu kommt der Betrieb von
+            <strong>IBM Storage Protect</strong> für Enterprise-Backup-Lösungen.
+          </span>
+          <span class="en-text">
+            My technical focus is on <strong>Linux &amp; AIX system administration</strong>,
+            LVM storage management, network configuration, and automating repetitive tasks —
+            because nobody should run the same command twice by hand. I also operate
+            <strong>IBM Storage Protect</strong> for enterprise backup solutions.
+          </span>
+        </p>
+        <p class="reveal">
+          <span class="de-text">
+            Ausgebildet als <strong>Fachinformatiker für Systemintegration</strong> mit
+            Zusatzqualifikation zum <strong>Fachberater für Integrierte Systeme</strong>
+            (Siemens Professional Education). Ich arbeite gerne in Umgebungen, in denen
+            Verlässlichkeit keine Option, sondern Pflicht ist.
+          </span>
+          <span class="en-text">
+            Trained as <strong>IT Specialist for System Integration</strong> with an
+            additional qualification as <strong>Consultant for Integrated Systems</strong>
+            (Siemens Professional Education). I thrive in environments where reliability
+            isn't optional — it's mandatory.
+          </span>
+        </p>
+      </div>
+
+      <div class="stats reveal">
+        <div class="stat">
+          <span class="stat-num">5+</span>
+          <span class="stat-lbl de-text">Jahre Berufserfahrung</span>
+          <span class="stat-lbl en-text">Years Experience</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">2</span>
+          <span class="stat-lbl de-text">Firmen (Klinik &amp; Bundes-IT)</span>
+          <span class="stat-lbl en-text">Companies (Clinical &amp; Fed IT)</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">AIX</span>
+          <span class="stat-lbl de-text">+ Linux Spezialist</span>
+          <span class="stat-lbl en-text">+ Linux Specialist</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">9</span>
+          <span class="stat-lbl de-text">Zertifizierungen</span>
+          <span class="stat-lbl en-text">Certifications</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ SKILLS ═══════════════════════════ -->
+<section class="sec dark" id="skills" style="scroll-margin-top:58px">
+  <div class="sec-inner">
+    <p class="sec-label reveal">// 02. skills</p>
+    <h2 class="sec-title reveal">
+      <span class="de-text">Technologie-Stack</span>
+      <span class="en-text">Technology Stack</span>
+    </h2>
+    <div class="sec-line reveal"></div>
+
+    <div class="skill-grid">
+
+      <div class="skill-cat reveal">
+        <div class="cat-title de-text">Betriebssysteme</div>
+        <div class="cat-title en-text">Operating Systems</div>
+        <div class="tags">
+          <span class="tag"><i class="devicon-linux-plain"></i>Linux</span>
+          <span class="tag"><i class="devicon-redhat-plain colored"></i>RHEL</span>
+          <span class="tag"><i class="devicon-ubuntu-plain colored"></i>Ubuntu</span>
+          <span class="tag"><i class="devicon-debian-plain colored"></i>Debian</span>
+          <span class="tag">AIX 7.x (UNIX)</span>
+          <span class="tag"><i class="devicon-windows8-original colored"></i>Windows Server</span>
+        </div>
+      </div>
+
+      <div class="skill-cat reveal">
+        <div class="cat-title de-text">Storage &amp; Dateisysteme</div>
+        <div class="cat-title en-text">Storage &amp; Filesystems</div>
+        <div class="tags">
+          <span class="tag c">LVM / Volume Groups</span>
+          <span class="tag c">Logical Volumes</span>
+          <span class="tag c">NFS</span>
+          <span class="tag c">Paging Space</span>
+          <span class="tag c">alt_disk_copy</span>
+          <span class="tag c">IBM Storage Protect</span>
+        </div>
+      </div>
+
+      <div class="skill-cat reveal">
+        <div class="cat-title">Netzwerk / Network</div>
+        <div class="tags">
+          <span class="tag">TCP/IP</span>
+          <span class="tag">DNS</span>
+          <span class="tag de-text">Host-Konfiguration</span>
+          <span class="tag en-text">Host Configuration</span>
+          <span class="tag">NFS Network</span>
+        </div>
+      </div>
+
+      <div class="skill-cat reveal">
+        <div class="cat-title de-text">Benutzer &amp; Rechteverwaltung</div>
+        <div class="cat-title en-text">User &amp; Access Management</div>
+        <div class="tags">
+          <span class="tag c">User Management</span>
+          <span class="tag c">Group Management</span>
+          <span class="tag c de-text">Login-Umgebungen</span>
+          <span class="tag c en-text">Login Environments</span>
+          <span class="tag c de-text">Systemprofile</span>
+          <span class="tag c en-text">System Profiles</span>
+        </div>
+      </div>
+
+      <div class="skill-cat reveal">
+        <div class="cat-title de-text">Scripting &amp; Automatisierung</div>
+        <div class="cat-title en-text">Scripting &amp; Automation</div>
+        <div class="tags">
+          <span class="tag p"><i class="devicon-bash-plain"></i>Bash</span>
+          <span class="tag p"><i class="devicon-powershell-plain"></i>PowerShell</span>
+          <span class="tag p"><i class="devicon-git-plain colored"></i>Git</span>
+        </div>
+      </div>
+
+      <div class="skill-cat reveal">
+        <div class="cat-title de-text">Branchen &amp; Umgebungen</div>
+        <div class="cat-title en-text">Industries &amp; Environments</div>
+        <div class="tags">
+          <span class="tag de-text">Gesundheitswesen (UKB)</span>
+          <span class="tag en-text">Healthcare (UKB)</span>
+          <span class="tag de-text">Öffentliche IT (BWI)</span>
+          <span class="tag en-text">Public Sector IT (BWI)</span>
+          <span class="tag de-text">Kritische Infrastruktur</span>
+          <span class="tag en-text">Critical Infrastructure</span>
+          <span class="tag de-text">Systemintegration</span>
+          <span class="tag en-text">System Integration</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="bars reveal">
+      <div class="bar-item">
+        <div class="bar-top">
+          <span class="bar-name">Linux Administration</span>
+          <span class="bar-pct">85%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" data-width="85"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-top">
+          <span class="bar-name">AIX / UNIX</span>
+          <span class="bar-pct">80%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" data-width="80"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-top">
+          <span class="bar-name">Storage &amp; LVM</span>
+          <span class="bar-pct">80%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" data-width="80"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-top">
+          <span class="bar-name de-text">Netzwerk &amp; DNS</span>
+          <span class="bar-name en-text">Network &amp; DNS</span>
+          <span class="bar-pct">75%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" data-width="75"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-top">
+          <span class="bar-name">Bash / PowerShell</span>
+          <span class="bar-pct">70%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" data-width="70"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ EXPERIENCE ═══════════════════════════ -->
+<section class="sec" id="experience" style="scroll-margin-top:58px">
+  <div class="sec-inner">
+    <p class="sec-label reveal">
+      <span class="de-text">// 03. erfahrung &amp; ausbildung</span>
+      <span class="en-text">// 03. experience &amp; education</span>
+    </p>
+    <h2 class="sec-title reveal">
+      <span class="de-text">Werdegang</span>
+      <span class="en-text">Career Path</span>
+    </h2>
+    <div class="sec-line reveal"></div>
+
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <span class="tl-badge work de-text">Berufserfahrung</span>
+        <span class="tl-badge work en-text">Work Experience</span>
+        <div class="tl-date">OKT 2024 — <span class="de-text">HEUTE</span><span class="en-text">PRESENT</span></div>
+        <div class="tl-role">Linux Engineer</div>
+        <div class="tl-company de-text">Universitätsklinikum Bonn (UKB)</div>
+        <div class="tl-company en-text">University Hospital Bonn (UKB)</div>
+        <div class="tl-desc">
+          <span class="de-text">
+            Administration und Betrieb von über 150 Linux-Systemen in kritischer Klinikumgebung.
+            Verantwortlich für Systemstabilität, Storage-Management (LVM, NFS) und
+            Benutzerverwaltung in einer Infrastruktur, in der Ausfälle keine Option sind.
+          </span>
+          <span class="en-text">
+            Administration and operation of 150+ Linux systems in a critical hospital environment.
+            Responsible for system stability, storage management (LVM, NFS), and user
+            administration in an infrastructure where downtime is simply not an option.
+          </span>
+        </div>
+        <div class="tl-tags">
+          <span class="tl-tag">Linux</span>
+          <span class="tl-tag">Storage</span>
+          <span class="tl-tag">LVM</span>
+          <span class="tl-tag">NFS</span>
+          <span class="tl-tag">IBM Storage Protect</span>
+          <span class="tl-tag de-text">Kritische Infrastruktur</span>
+          <span class="tl-tag en-text">Critical Infrastructure</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <span class="tl-badge work de-text">Berufserfahrung</span>
+        <span class="tl-badge work en-text">Work Experience</span>
+        <div class="tl-date">
+          AUG 2020 — OKT 2024 · 4 <span class="de-text">Jahre 3 Monate</span><span class="en-text">Years 3 Months</span>
+        </div>
+        <div class="tl-role">Junior Operations Professional</div>
+        <div class="tl-company de-text">BWI GmbH, Bonn · IT-Dienstleister der Bundeswehr</div>
+        <div class="tl-company en-text">BWI GmbH, Bonn · IT Service Provider of the Bundeswehr</div>
+        <div class="tl-desc">
+          <span class="de-text">
+            Betrieb und Wartung von über 150 Linux- und AIX-Systemen in einer hochsicheren,
+            regulierten Umgebung der Bundeswehr-IT. Storage-Administration (VGs, LVs, NFS, Paging Space),
+            Netzwerkkonfiguration sowie Betriebssystem-Verwaltung auf AIX 7.x Plattformen.
+          </span>
+          <span class="en-text">
+            Operation and maintenance of 150+ Linux and AIX systems in a highly secure,
+            regulated Bundeswehr IT environment. Storage administration (VGs, LVs, NFS, Paging Space),
+            network configuration, and OS administration on AIX 7.x platforms.
+          </span>
+        </div>
+        <div class="tl-tags">
+          <span class="tl-tag">AIX (UNIX)</span>
+          <span class="tl-tag">Linux</span>
+          <span class="tl-tag">TCP/IP</span>
+          <span class="tl-tag">Volume Groups</span>
+          <span class="tl-tag">User Management</span>
+          <span class="tl-tag">DNS</span>
+        </div>
+      </div>
+
+      <div class="tl-item edu reveal">
+        <span class="tl-badge edu de-text">Ausbildung</span>
+        <span class="tl-badge edu en-text">Education</span>
+        <div class="tl-date">AUG 2020 — MAI 2023</div>
+        <div class="tl-role de-text">Fachinformatiker für Systemintegration</div>
+        <div class="tl-role en-text">IT Specialist for System Integration</div>
+        <div class="tl-company">ATIW Paderborn</div>
+        <div class="tl-desc">
+          <span class="de-text">
+            Duale Ausbildung mit Schwerpunkt auf IT-Systemintegration, Netzwerktechnik
+            und Betriebssystemadministration.
+          </span>
+          <span class="en-text">
+            Dual-track vocational training focused on IT system integration,
+            networking, and operating system administration.
+          </span>
+        </div>
+        <div class="tl-tags">
+          <span class="tl-tag de-text">Systemintegration</span>
+          <span class="tl-tag en-text">System Integration</span>
+          <span class="tl-tag de-text">Netzwerktechnik</span>
+          <span class="tl-tag en-text">Networking</span>
+          <span class="tl-tag">IT-Infrastruktur</span>
+        </div>
+      </div>
+
+      <div class="tl-item edu reveal">
+        <span class="tl-badge edu de-text">Weiterbildung</span>
+        <span class="tl-badge edu en-text">Further Education</span>
+        <div class="tl-date">SEP 2020 — MAI 2023</div>
+        <div class="tl-role de-text">Fachberater für Integrierte Systeme</div>
+        <div class="tl-role en-text">Consultant for Integrated Systems</div>
+        <div class="tl-company">Siemens Professional Education</div>
+        <div class="tl-desc">
+          <span class="de-text">
+            Berufsbegleitende Weiterqualifizierung zum Fachberater mit Fokus auf
+            integrierte IT-Systeme und komplexe Unternehmensinfrastrukturen.
+          </span>
+          <span class="en-text">
+            Parallel professional development program focused on integrated IT systems
+            and complex enterprise infrastructures, completed alongside full-time work.
+          </span>
+        </div>
+        <div class="tl-tags">
+          <span class="tl-tag de-text">Integrierte Systeme</span>
+          <span class="tl-tag en-text">Integrated Systems</span>
+          <span class="tl-tag">Siemens</span>
+          <span class="tl-tag">Enterprise IT</span>
+          <span class="tl-tag">ITIL®</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ HOMELAB ═══════════════════════════ -->
+<section class="sec dark" id="homelab" style="scroll-margin-top:58px">
+  <div class="sec-inner">
+    <p class="sec-label reveal">
+      <span class="de-text">// 04. homelab &amp; projekte</span>
+      <span class="en-text">// 04. homelab &amp; projects</span>
+    </p>
+    <h2 class="sec-title reveal">
+      <span class="de-text">Was ich privat betreibe</span>
+      <span class="en-text">What I run at home</span>
+    </h2>
+    <div class="sec-line reveal"></div>
+
+    <div class="proj-grid">
+
+      <div class="proj-card reveal">
+        <div class="proj-header">
+          <span class="proj-icon">🖥️</span>
+          <div>
+            <div class="proj-name">Proxmox VE</div>
+            <div class="proj-status">● running</div>
+          </div>
+        </div>
+        <p class="proj-desc">
+          <span class="de-text">Hypervisor-Basis für alle Self-Hosted Services. Mehrere LXC-Container und VMs — das Herzstück des Homelabs.</span>
+          <span class="en-text">Hypervisor base for all self-hosted services. Multiple LXC containers and VMs — the heart of the homelab.</span>
+        </p>
+        <div class="proj-tags">
+          <span class="proj-tag">KVM</span><span class="proj-tag">LXC</span><span class="proj-tag">ZFS</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-header">
+          <span class="proj-icon">🛡️</span>
+          <div>
+            <div class="proj-name">Pi-hole / AdGuard</div>
+            <div class="proj-status">● running</div>
+          </div>
+        </div>
+        <p class="proj-desc">
+          <span class="de-text">DNS-basierter Werbeblocker und Netzwerk-DNS-Server für das gesamte Heimnetz. Vollständige Kontrolle über DNS-Auflösung.</span>
+          <span class="en-text">DNS-based ad blocker and network DNS server for the entire home network. Full control over DNS resolution.</span>
+        </p>
+        <div class="proj-tags">
+          <span class="proj-tag">DNS</span><span class="proj-tag">Netzwerk</span><span class="proj-tag">LXC</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-header">
+          <span class="proj-icon">📊</span>
+          <div>
+            <div class="proj-name">Monitoring Stack</div>
+            <div class="proj-status">● running</div>
+          </div>
+        </div>
+        <p class="proj-desc">
+          <span class="de-text">Grafana-Dashboards mit Prometheus für System- und Netzwerküberwachung aller Homelab-Komponenten in Echtzeit.</span>
+          <span class="en-text">Grafana dashboards with Prometheus for real-time system and network monitoring of all homelab components.</span>
+        </p>
+        <div class="proj-tags">
+          <span class="proj-tag">Grafana</span><span class="proj-tag">Prometheus</span><span class="proj-tag">Monitoring</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-header">
+          <span class="proj-icon">💾</span>
+          <div>
+            <div class="proj-name">NAS</div>
+            <div class="proj-status">● running</div>
+          </div>
+        </div>
+        <p class="proj-desc">
+          <span class="de-text">Selbst gehosteter Netzwerkspeicher für Backups, Medien und Dateiablage — mit redundanter Speicherstruktur.</span>
+          <span class="en-text">Self-hosted network attached storage for backups, media and file storage — with redundant storage structure.</span>
+        </p>
+        <div class="proj-tags">
+          <span class="proj-tag">NAS</span><span class="proj-tag">Storage</span><span class="proj-tag">Backup</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-header">
+          <span class="proj-icon">🔀</span>
+          <div>
+            <div class="proj-name">Reverse Proxy</div>
+            <div class="proj-status">● running</div>
+          </div>
+        </div>
+        <p class="proj-desc">
+          <span class="de-text">Zentrales Traffic-Routing und SSL-Terminierung für alle Self-Hosted-Dienste. Kein direkter Portexport nach außen.</span>
+          <span class="en-text">Central traffic routing and SSL termination for all self-hosted services. No direct port exposure to the internet.</span>
+        </p>
+        <div class="proj-tags">
+          <span class="proj-tag">Nginx</span><span class="proj-tag">SSL/TLS</span><span class="proj-tag">Routing</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-header">
+          <span class="proj-icon">🤖</span>
+          <div>
+            <div class="proj-name">Discord Bots</div>
+            <div class="proj-status">● running</div>
+          </div>
+        </div>
+        <p class="proj-desc">
+          <span class="de-text">Selbst entwickelte und betriebene Bots für Discord-Server. Zeigt Scripting- und Automatisierungskompetenz außerhalb des Jobs.</span>
+          <span class="en-text">Self-developed and operated bots for Discord servers. Demonstrates scripting and automation skills beyond the day job.</span>
+        </p>
+        <div class="proj-tags">
+          <span class="proj-tag">Scripting</span><span class="proj-tag">Automation</span><span class="proj-tag">LXC</span>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-header">
+          <span class="proj-icon">💪</span>
+          <div>
+            <div class="proj-name">Fitness-App</div>
+            <div class="proj-status">● running</div>
+          </div>
+        </div>
+        <p class="proj-desc">
+          <span class="de-text">Selbst gehostete Fitness-Anwendung — weil man auch persönliche Daten nicht in fremde Hände geben muss.</span>
+          <span class="en-text">Self-hosted fitness application — because personal data doesn't need to live on someone else's server.</span>
+        </p>
+        <div class="proj-tags">
+          <span class="proj-tag">Self-Hosted</span><span class="proj-tag">Privacy</span><span class="proj-tag">LXC</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CERTS ═══════════════════════════ -->
+<section class="sec" id="certs" style="scroll-margin-top:58px">
+  <div class="sec-inner">
+    <p class="sec-label reveal">
+      <span class="de-text">// 05. zertifikate</span>
+      <span class="en-text">// 05. certifications</span>
+    </p>
+    <h2 class="sec-title reveal">
+      <span class="de-text">Zertifizierungen</span>
+      <span class="en-text">Certifications</span>
+    </h2>
+    <div class="sec-line reveal"></div>
+
+    <div class="cert-grid">
+
+      <div class="cert-card feat reveal">
+        <div class="cert-icon">🏅</div>
+        <div style="flex:1">
+          <div class="cert-name de-text">Fachberater Integrierter Systeme</div>
+          <div class="cert-name en-text">Consultant for Integrated Systems</div>
+          <div class="cert-issuer">
+            Siemens Professional Education · Apr 2023 ·
+            <span class="de-text">inkl. ITIL® Zertifizierung</span>
+            <span class="en-text">incl. ITIL® Certification</span>
+          </div>
+          <div class="cert-mods">
+            <div>
+              <div class="mod-title de-text">BETRIEBSSYSTEME &amp; SYSTEMINTEGRATION</div>
+              <div class="mod-title en-text">OPERATING SYSTEMS &amp; SYSTEM INTEGRATION</div>
+              <div class="mod-row"><span>Windows Client &amp; Server — Admin &amp; Konfig.</span><span class="mod-score">99 / 84 Pkt.</span></div>
+              <div class="mod-row"><span>Linux <span class="de-text">Betriebssystem</span><span class="en-text">Operating System</span></span><span class="mod-score">92 Pkt.</span></div>
+              <div class="mod-row"><span>Linux Expert</span><span class="mod-score">85 Pkt.</span></div>
+              <div class="mod-row"><span>Storage, Virtualisierung &amp; Cloud</span><span class="mod-score">89 Pkt.</span></div>
+              <div class="mod-row"><span>Windows PowerShell</span><span class="mod-score">68 Pkt.</span></div>
+            </div>
+            <div>
+              <div class="mod-title de-text">NETZWERKE &amp; NETZADMINISTRATION</div>
+              <div class="mod-title en-text">NETWORKS &amp; ADMINISTRATION</div>
+              <div class="mod-row"><span>Internet, Datenschutz &amp; Infosicherheit</span><span class="mod-score">100 Pkt.</span></div>
+              <div class="mod-row"><span><span class="de-text">Funknetze</span><span class="en-text">Wireless Networks</span></span><span class="mod-score">90 Pkt.</span></div>
+              <div class="mod-row"><span>IT-Security Advanced</span><span class="mod-score">100 Pkt.</span></div>
+              <div class="mod-row"><span>IT-Security Expert</span><span class="mod-score">89 Pkt.</span></div>
+              <div class="mod-row"><span>IT-Management</span><span class="mod-score">86 Pkt.</span></div>
+            </div>
+            <div>
+              <div class="mod-title de-text">TOOLS &amp; METHODEN</div>
+              <div class="mod-title en-text">TOOLS &amp; METHODS</div>
+              <div class="mod-row"><span>Office &amp; <span class="de-text">Technol. Grundlagen Digitalisierung</span><span class="en-text">Fundamentals of Digitalization</span></span><span class="mod-score">90 Pkt.</span></div>
+              <div class="mod-row"><span>SAP ERP <span class="de-text">Überblick</span><span class="en-text">Overview</span></span><span class="mod-score">91 Pkt.</span></div>
+              <div class="mod-row"><span>ITIL® Foundation</span><span class="mod-score">✓</span></div>
+              <div class="mod-row"><span><span class="de-text">Vorgehensmodelle Softwareentwicklung</span><span class="en-text">Software Dev. Models</span></span><span class="mod-score">95 Pkt.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🖥️</div>
+        <div>
+          <div class="cert-name">AIX Jumpstart for UNIX Professionals</div>
+          <div class="cert-issuer">IBM · AIX / UNIX <span class="de-text">Systemadministration</span><span class="en-text">System Administration</span></div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">💻</div>
+        <div>
+          <div class="cert-name">IBM PowerVM: Implementing Virtualization</div>
+          <div class="cert-issuer">IBM · Kurs AN30G · PowerVM <span class="de-text">Virtualisierung</span><span class="en-text">Virtualization</span></div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🪟</div>
+        <div>
+          <div class="cert-name">Windows-Client MD-100</div>
+          <div class="cert-issuer">Microsoft · Windows 10 <span class="de-text">Administration &amp; Konfiguration</span><span class="en-text">Administration &amp; Configuration</span></div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🐧</div>
+        <div>
+          <div class="cert-name">Introduction to Linux</div>
+          <div class="cert-issuer">edX · <span class="de-text">Verifiziertes Zertifikat</span><span class="en-text">Verified Certificate</span> · Linux Foundation</div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">📋</div>
+        <div>
+          <div class="cert-name">ITIL® Foundation Certificate in IT Service Management</div>
+          <div class="cert-issuer">ITIL® · IT Service Management</div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">⚡</div>
+        <div>
+          <div class="cert-name">Intensiv-Workshop Windows PowerShell <span class="de-text">Teil 1</span><span class="en-text">Part 1</span></div>
+          <div class="cert-issuer">PowerShell <span class="de-text">Grundlagen &amp; Scripting</span><span class="en-text">Basics &amp; Scripting</span></div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">⚡</div>
+        <div>
+          <div class="cert-name">Intensiv-Workshop Windows PowerShell <span class="de-text">Teil 2</span><span class="en-text">Part 2</span></div>
+          <div class="cert-issuer">PowerShell <span class="de-text">Scripting &amp; Automatisierung</span><span class="en-text">Scripting &amp; Automation</span></div>
+        </div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🇬🇧</div>
+        <div>
+          <div class="cert-name">Cambridge Business English Certificate Vantage (BEC)</div>
+          <div class="cert-issuer">Cambridge Assessment English · Niveau B2</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ LANGUAGES ═══════════════════════════ -->
+<section class="sec" id="languages" style="scroll-margin-top:58px">
+  <div class="sec-inner">
+    <p class="sec-label reveal">
+      <span class="de-text">// 06. sprachen</span>
+      <span class="en-text">// 06. languages</span>
+    </p>
+    <h2 class="sec-title reveal">
+      <span class="de-text">Sprachkenntnisse</span>
+      <span class="en-text">Language Skills</span>
+    </h2>
+    <div class="sec-line reveal"></div>
+    <div class="lang-row reveal">
+      <div class="lang-card">
+        <div class="lang-flag">🇩🇪</div>
+        <div class="lang-name">Deutsch</div>
+        <div class="lang-lvl de-text">Muttersprache</div>
+        <div class="lang-lvl en-text">Native</div>
+      </div>
+      <div class="lang-card">
+        <div class="lang-flag">🇬🇧</div>
+        <div class="lang-name">Englisch / English</div>
+        <div class="lang-lvl">B2 — Cambridge BEC Vantage</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CONTACT ═══════════════════════════ -->
+<section class="sec" id="contact" style="scroll-margin-top:58px">
+  <div class="sec-inner contact-center">
+    <p class="sec-label reveal" style="text-align:center">
+      <span class="de-text">// 07. kontakt</span>
+      <span class="en-text">// 07. contact</span>
+    </p>
+    <h2 class="sec-title reveal" style="text-align:center">
+      <span class="de-text">Lass uns reden</span>
+      <span class="en-text">Let's Talk</span>
+    </h2>
+    <div class="sec-line reveal" style="margin:0 auto 3rem"></div>
+
+    <p class="contact-tagline reveal">
+      <span class="de-text">
+        Offen für neue Herausforderungen, spannende Projekte oder fachlichen Austausch
+        rund um Linux, AIX und IT-Infrastruktur. Einfach das Formular ausfüllen —
+        deine Nachricht landet direkt bei mir.
+      </span>
+      <span class="en-text">
+        Open to new challenges, exciting projects, or technical discussions around
+        Linux, AIX, and IT infrastructure. Fill out the form below —
+        your message goes straight to my inbox.
+      </span>
+    </p>
+
+    <!-- Formspree: Ersetze DEINE_FORM_ID mit deiner ID von formspree.io -->
+    <form action="https://formspree.io/f/xjgjngaa" method="POST"
+          class="cf reveal" id="contact-form">
+      <div class="cf-row">
+        <div class="cf-field">
+          <label class="cf-label" for="cf-name">
+            <span class="de-text">// name</span>
+            <span class="en-text">// name</span>
+          </label>
+          <input class="cf-input" type="text" id="cf-name" name="name"
+                 placeholder="Max Mustermann" required autocomplete="name">
+        </div>
+        <div class="cf-field">
+          <label class="cf-label" for="cf-email">// e-mail</label>
+          <input class="cf-input" type="email" id="cf-email" name="email"
+                 placeholder="max@beispiel.de" required autocomplete="email">
+        </div>
+      </div>
+      <div class="cf-field">
+        <label class="cf-label" for="cf-subject">
+          <span class="de-text">// betreff</span>
+          <span class="en-text">// subject</span>
+        </label>
+        <input class="cf-input" type="text" id="cf-subject" name="subject"
+               placeholder="Jobangebot / Fachgespräch / ...">
+      </div>
+      <div class="cf-field">
+        <label class="cf-label" for="cf-msg">
+          <span class="de-text">// nachricht</span>
+          <span class="en-text">// message</span>
+        </label>
+        <textarea class="cf-textarea" id="cf-msg" name="message"
+                  placeholder="Deine Nachricht..." required></textarea>
+      </div>
+      <!-- Honeypot – Spam-Schutz -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1">
+      <input type="hidden" name="_subject" value="📬 Neue Nachricht von deiner Portfolio-Seite">
+      <!-- Erfolgs-Banner -->
+      <div class="cf-success" id="cf-success">
+        <span class="de-text">✓ Nachricht gesendet! Ich melde mich bald.</span>
+        <span class="en-text">✓ Message sent! I'll get back to you soon.</span>
+      </div>
+      <button type="submit" class="btn-primary" id="cf-btn" style="width:100%">
+        <span class="de-text">Nachricht senden →</span>
+        <span class="en-text">Send Message →</span>
+      </button>
+    </form>
+
+    <!-- Social links -->
+    <div class="contact-links reveal">
+      <a href="https://www.linkedin.com/in/jan-sander-46213930b/" target="_blank" rel="noopener" class="contact-link">💼 LinkedIn</a>
+      <a href="https://github.com/Ronynlive" target="_blank" rel="noopener" class="contact-link">⌨️ GitHub</a>
+    </div>
+  </div>
+</section>
+
+</div><!-- .page-content -->
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer>
+  <p>Jan Sander · Linux Engineer · <span class="hi">Köln / Bonn</span> · 2026</p>
+  <p style="margin-top:.4rem;opacity:.55;font-size:.67rem">
+    <span class="hi">$</span> echo <span class="hi">"Automate everything you hate doing twice."</span>
+  </p>
+</footer>
+
+<script>
+/* ═══════════ MATRIX RAIN ═══════════ */
+(function () {
+  const c = document.getElementById('matrix-canvas');
+  const ctx = c.getContext('2d');
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@%&*!?><[]{}|^~:/\\';
+  let cols, drops;
+  function resize() {
+    c.width  = window.innerWidth;
+    c.height = window.innerHeight;
+    cols  = Math.floor(c.width / 20);
+    drops = Array(cols).fill(1);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  setInterval(function () {
+    ctx.fillStyle = 'rgba(7,11,21,0.06)';
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.fillStyle = '#00ff88';
+    ctx.font = '13px Courier New';
+    drops.forEach(function (y, i) {
+      ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 20, y * 20);
+      if (y * 20 > c.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    });
+  }, 55);
+})();
+
+/* ═══════════ HERO PARTICLE NETWORK ═══════════ */
+(function () {
+  const c = document.getElementById('hero-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  let w, h, pts;
+  function resize() {
+    w = c.width  = c.offsetWidth;
+    h = c.height = c.offsetHeight;
+    pts = Array.from({ length: 55 }, function () {
+      return {
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35,
+        r: Math.random() * 1.8 + .4
+      };
+    });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    pts.forEach(function (a, i) {
+      pts.slice(i + 1).forEach(function (b) {
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 130) {
+          ctx.strokeStyle = 'rgba(0,255,136,' + (.18 * (1 - d / 130)) + ')';
+          ctx.lineWidth = .5;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      });
+      ctx.fillStyle = 'rgba(0,255,136,.55)';
+      ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
+      a.x += a.vx; a.y += a.vy;
+      if (a.x < 0 || a.x > w) a.vx *= -1;
+      if (a.y < 0 || a.y > h) a.vy *= -1;
+    });
+    requestAnimationFrame(draw);
+  }
+  resize();
+  draw();
+  window.addEventListener('resize', function () { resize(); });
+})();
+
+/* ═══════════ TERMINAL ANIMATION ═══════════ */
+(function () {
+  const body = document.getElementById('termBody');
+  if (!body) return;
+  const delay = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+  const PROMPT = '<span style="color:#00ff88">jan</span><span style="color:#3d5a70">@ukb</span><span style="color:#3d5a70">:~$</span> ';
+
+  function out(html) {
+    const d = document.createElement('div');
+    d.className = 't-out'; d.innerHTML = html; body.appendChild(d);
+  }
+
+  async function type(text) {
+    const row = document.createElement('div');
+    row.innerHTML = PROMPT;
+    const cmd = document.createElement('span');
+    cmd.style.color = '#e2e8f0';
+    const cur = document.createElement('span');
+    cur.className = 't-cursor';
+    row.appendChild(cmd); row.appendChild(cur); body.appendChild(row);
+    for (const ch of text) {
+      cmd.textContent += ch;
+      await delay(42 + Math.random() * 38);
+    }
+    cur.remove();
+  }
+
+  async function loop() {
+    body.innerHTML = '';
+    await delay(500);
+
+    await type('whoami');
+    await delay(110); out('<span style="color:#00d4ff">jan.sander</span> — Linux Engineer');
+    await delay(650);
+
+    await type('uname -sr');
+    await delay(110); out('Linux 6.8.0-ukb-prod &nbsp;|&nbsp; <span style="color:#00ff88">AIX 7.3</span>');
+    await delay(650);
+
+    await type('uptime -p');
+    await delay(110); out('up <span style="color:#00ff88">2 years, 4 months</span>, 9 hours');
+    await delay(650);
+
+    await type('systemctl status backup');
+    await delay(110); out('<span style="color:#00ff88">● active (running)</span> — IBM Storage Protect');
+    await delay(650);
+
+    await type('cat /etc/skills');
+    await delay(110);
+    const lines = [
+      '  OS      <span style="color:#00d4ff">Linux · RHEL · AIX 7.x</span>',
+      '  Storage <span style="color:#00d4ff">LVM · NFS · IBM SP</span>',
+      '  Net     <span style="color:#00d4ff">TCP/IP · DNS</span>',
+      '  Script  <span style="color:#00d4ff">Bash · PowerShell</span>',
+    ];
+    for (const l of lines) { out(l); await delay(75); }
+    await delay(600);
+
+    const end = document.createElement('div');
+    end.innerHTML = PROMPT + '<span class="t-cursor"></span>';
+    body.appendChild(end);
+    await delay(4200);
+    loop();
+  }
+  loop();
+})();
+
+/* ═══════════ SCROLL REVEAL ═══════════ */
+const revObs = new IntersectionObserver(function (entries) {
+  entries.forEach(function (e, i) {
+    if (e.isIntersecting) {
+      setTimeout(function () { e.target.classList.add('visible'); }, i * 75);
+      revObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(function (el) { revObs.observe(el); });
+
+/* ═══════════ SKILL BARS ═══════════ */
+const barObs = new IntersectionObserver(function (entries) {
+  entries.forEach(function (e) {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(function (b) {
+        b.style.width = b.dataset.width + '%';
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.bars').forEach(function (el) { barObs.observe(el); });
+
+/* ═══════════ ACTIVE NAV ═══════════ */
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', function () {
+  let cur = '';
+  document.querySelectorAll('section[id], .sec[id]').forEach(function (s) {
+    if (window.scrollY >= s.offsetTop - 100) cur = s.id;
+  });
+  navLinks.forEach(function (a) {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+});
+
+/* ═══════════ MOBILE MENU ═══════════ */
+function toggleMenu() {
+  document.getElementById('mob-nav').classList.toggle('open');
+}
+
+/* ═══════════ FORMSPREE AJAX ═══════════ */
+(function () {
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var btn = document.getElementById('cf-btn');
+    btn.disabled = true;
+    btn.textContent = '...';
+    try {
+      var res = await fetch(form.action, {
+        method: 'POST', body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.querySelectorAll('.cf-row, .cf-field, .cf-textarea').forEach(function(el){ el.style.display='none'; });
+        btn.style.display = 'none';
+        document.getElementById('cf-success').style.display = 'block';
+      } else {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="de-text">Nachricht senden →</span><span class="en-text">Send Message →</span>';
+        alert('Fehler beim Senden. Bitte direkt über LinkedIn melden.');
+      }
+    } catch (_) {
+      btn.disabled = false;
+      btn.innerHTML = '<span class="de-text">Nachricht senden →</span><span class="en-text">Send Message →</span>';
+    }
+  });
+})();
+
+/* ═══════════ LANGUAGE SWITCHER ═══════════ */
+function setLang(lang) {
+  document.documentElement.setAttribute('data-lang', lang);
+  document.documentElement.lang = lang;
+  document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  // Make sure any reveal elements that are now visible get their class
+  document.querySelectorAll('.reveal:not(.visible)').forEach(function (el) {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.95 && r.bottom > 0) {
+      el.classList.add('visible');
+    }
+  });
+}
+</script>
+</body>
+</html>
