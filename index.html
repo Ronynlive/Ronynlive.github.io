@@ -21,6 +21,30 @@
   <meta name="twitter:title" content="Jan Sander — Linux Engineer">
   <meta name="twitter:description" content="Linux Engineer | AIX · LVM · IBM Storage Protect · Köln/Bonn">
   <meta name="twitter:image" content="https://ronynlive.github.io/og-banner.png">
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jan Sander",
+    "jobTitle": "Linux Engineer",
+    "url": "https://ronynlive.github.io",
+    "image": "https://ronynlive.github.io/og-banner.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Köln / Bonn",
+      "addressCountry": "DE"
+    },
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Universitätsklinikum Bonn"
+    },
+    "knowsAbout": ["Linux", "AIX", "LVM", "IBM Storage Protect", "Bash", "Proxmox", "Storage Administration", "System Integration"],
+    "sameAs": [
+      "https://github.com/Ronynlive"
+    ]
+  }
+  </script>
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
@@ -1029,24 +1053,24 @@
           <span class="en-text">Hypervisor base for all self-hosted services. Multiple LXC containers and VMs — the heart of the homelab.</span>
         </p>
         <div class="proj-tags">
-          <span class="proj-tag">KVM</span><span class="proj-tag">LXC</span><span class="proj-tag">ZFS</span>
+          <span class="proj-tag">KVM</span><span class="proj-tag">LXC</span><span class="proj-tag">LVM-thin</span>
         </div>
       </div>
 
       <div class="proj-card reveal">
         <div class="proj-header">
-          <span class="proj-icon">🛡️</span>
+          <span class="proj-icon">🔒</span>
           <div>
-            <div class="proj-name">Pi-hole / AdGuard</div>
+            <div class="proj-name">WireGuard VPN</div>
             <div class="proj-status">● running</div>
           </div>
         </div>
         <p class="proj-desc">
-          <span class="de-text">DNS-basierter Werbeblocker und Netzwerk-DNS-Server für das gesamte Heimnetz. Vollständige Kontrolle über DNS-Auflösung.</span>
-          <span class="en-text">DNS-based ad blocker and network DNS server for the entire home network. Full control over DNS resolution.</span>
+          <span class="de-text">Self-Hosted VPN-Server direkt auf dem Proxmox-Host. Sicherer Remote-Zugriff auf alle Homelab-Dienste von unterwegs — ohne offene Ports nach außen.</span>
+          <span class="en-text">Self-hosted VPN server running directly on the Proxmox host. Secure remote access to all homelab services on the go — without exposing ports to the internet.</span>
         </p>
         <div class="proj-tags">
-          <span class="proj-tag">DNS</span><span class="proj-tag">Netzwerk</span><span class="proj-tag">LXC</span>
+          <span class="proj-tag">VPN</span><span class="proj-tag">WireGuard</span><span class="proj-tag">Netzwerk</span>
         </div>
       </div>
 
@@ -1127,11 +1151,11 @@
           </div>
         </div>
         <p class="proj-desc">
-          <span class="de-text">Selbst entwickelte Web-App auf eigenem Stack: Next.js Frontend, Supabase Backend mit Auth und PostgreSQL — komplett self-hosted.</span>
-          <span class="en-text">Self-developed web app on a custom stack: Next.js frontend, Supabase backend with auth and PostgreSQL — fully self-hosted.</span>
+          <span class="de-text">Selbst entwickelte Web-App auf eigenem Stack: React + Vite Frontend, Supabase Backend mit Auth und PostgreSQL — komplett self-hosted.</span>
+          <span class="en-text">Self-developed web app on a custom stack: React + Vite frontend, Supabase backend with auth and PostgreSQL — fully self-hosted.</span>
         </p>
         <div class="proj-tags">
-          <span class="proj-tag">Next.js</span><span class="proj-tag">Supabase</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">Docker</span>
+          <span class="proj-tag">React</span><span class="proj-tag">Vite</span><span class="proj-tag">Supabase</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">Docker</span>
         </div>
       </div>
 
@@ -1482,7 +1506,7 @@
   const body = document.getElementById('termBody');
   if (!body) return;
   const delay = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
-  const PROMPT = '<span style="color:#00ff88">jan</span><span style="color:#3d5a70">@ukb</span><span style="color:#3d5a70">:~$</span> ';
+  const PROMPT = '<span style="color:#00ff88">jan</span><span style="color:#3d5a70">@linux-server</span><span style="color:#3d5a70">:~$</span> ';
 
   function out(html) {
     const d = document.createElement('div');
@@ -1513,7 +1537,7 @@
     await delay(650);
 
     await type('uname -sr');
-    await delay(110); out('Linux 6.8.0-ukb-prod &nbsp;|&nbsp; <span style="color:#00ff88">AIX 7.3</span>');
+    await delay(110); out('Linux 6.8.0-pve &nbsp;|&nbsp; <span style="color:#00ff88">AIX 7.3</span>');
     await delay(650);
 
     await type('uptime -p');
